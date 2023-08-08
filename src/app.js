@@ -13,6 +13,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // Routes
-app.use("/", apiRoutes);
+app.use("/api/", apiRoutes);
 
 export default app;
