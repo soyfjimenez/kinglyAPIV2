@@ -1,7 +1,6 @@
 import express from "express";
 import morgan from "morgan";
-import path from "path"; // Importa el módulo path para manejar rutas de archivos
-// Routes
+import cors from "cors";
 import apiRoutes from "./routes/api.routes.js";
 
 const app = express();
@@ -13,10 +12,14 @@ app.set("port", process.env.PORT || 4000);
 app.use(morgan("dev"));
 app.use(express.json());
 
-// Servir archivos estáticos desde la carpeta 'public'
-app.use(express.static("public"));
+// Configuración de CORS
+app.use(cors({
+    origin: "*", // Permitir todas las solicitudes
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+}));
 
-// Routes
+app.use(express.static("public"));
 app.use("/api/", apiRoutes);
 
 export default app;
