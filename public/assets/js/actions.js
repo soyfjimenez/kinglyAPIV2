@@ -1,6 +1,6 @@
 
 async function getProducts(cat) {
-    const url = `http://localhost:4000/api/en/${cat}`;
+    const url = `https://digital.wearekingly.com/api/en/${cat}`;
 
     try {
         const response = await fetch(url);
@@ -17,7 +17,7 @@ async function getProducts(cat) {
 } 
 
 async function getSingleProduct(ref) {
-    const url = `http://localhost:4000/api/en/ref/${ref}`;
+    const url = `https://digital.wearekingly.com/api/en/ref/${ref}`;
 
     try {
         const response = await fetch(url);
@@ -34,7 +34,8 @@ async function getSingleProduct(ref) {
 } 
 
 async function addProduct(productObject) {
-    const url = `http://localhost:4000/api/`;
+    console.log(productObject);
+    const url = `https://digital.wearekingly.com/api/`;
 
     try {
         const response = await fetch(url, {
@@ -55,7 +56,7 @@ async function addProduct(productObject) {
 } 
 
 async function deleteProductAPI(ref) {
-    const url = `http://localhost:4000/api/${ref}`;
+    const url = `https://digital.wearekingly.com/api/${ref}`;
 
     try {
         const response = await fetch(url, {
@@ -133,11 +134,6 @@ async function drawProductTable(cat, targetElementID) {
 
     const priceNumbers = [];
 
-    for (const atributo in productJSON[0]) {
-        if (atributo.includes("price")) {
-            priceNumbers.push(atributo);
-        }
-    }
 
     let pricesHeading = "";
     let tableBody = `
@@ -149,7 +145,6 @@ async function drawProductTable(cat, targetElementID) {
                     <th>Title</th>
                     <th>Description</th>
                     <th>Composition</th>
-                    <!--PRICES-->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -159,17 +154,10 @@ async function drawProductTable(cat, targetElementID) {
         </table>
     </div>`;
     
-    priceNumbers.forEach(price => {
-        pricesHeading += `<th>Price ${price.replace("price", "")}</th>`;
-    });
 
     let productRows = "";
 
     productJSON.forEach(product => {
-        let priceCells = "";
-        priceNumbers.forEach(price => {
-            priceCells += `<td>${product[price] != undefined ? product[price] : '-'}</td>`;
-        });
 
         productRows += `
         <tr>
@@ -177,7 +165,6 @@ async function drawProductTable(cat, targetElementID) {
             <td>${product.productTitle}</td>
             <td>${product.productDesc}</td>
             <td>${product.composition}</td>
-            ${priceCells}
             <td>
             <div class="d-flex">
             <button type="button" class="btn btn-outline-secondary me-2" onclick='fillModalEdit("${product.ref.trim()}")'>Edit</button>
@@ -189,7 +176,6 @@ async function drawProductTable(cat, targetElementID) {
         </tr>`;
     });
 
-    tableBody = tableBody.replace("<!--PRICES-->", pricesHeading);
     tableBody = tableBody.replace("<!--PRODUCTLIST-->", productRows);
     target.innerHTML = tableBody;
 }
