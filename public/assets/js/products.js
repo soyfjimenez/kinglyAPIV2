@@ -79,7 +79,8 @@ async function fillModalEdit(ref) {
   document.getElementById("title").value = productJSON.productTitle;
   document.getElementById("description").value = productJSON.productDesc;
   document.getElementById("composition").value = productJSON.composition;
-
+  document.getElementById("weigth").value = productJSON.weigth;
+  document.getElementById("volumetricWeigth").value = productJSON.volumetricWeigth;
   // Campo de categoria
   document.getElementById("cat").value = productJSON.cat;
 

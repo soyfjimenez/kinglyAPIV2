@@ -1,6 +1,7 @@
 
 async function getProducts(cat) {
     const url = `https://digital.wearekingly.com/api/en/${cat}`;
+    //const url = `http://localhost:4000/api/en/${cat}`;
 
     try {
         const response = await fetch(url);
@@ -18,7 +19,7 @@ async function getProducts(cat) {
 
 async function getSingleProduct(ref) {
     const url = `https://digital.wearekingly.com/api/en/ref/${ref}`;
-
+    //const url = `http://localhost:4000/api/en/ref/${ref}`;
     try {
         const response = await fetch(url);
         
@@ -36,6 +37,8 @@ async function getSingleProduct(ref) {
 async function addProduct(productObject) {
     console.log(productObject);
     const url = `https://digital.wearekingly.com/api/`;
+    //const url = `http://localhost:4000/api/`;
+    
 
     try {
         const response = await fetch(url, {
@@ -57,6 +60,7 @@ async function addProduct(productObject) {
 
 async function deleteProductAPI(ref) {
     const url = `https://digital.wearekingly.com/api/${ref}`;
+    //const url = `http://localhost:4000/api/${ref}`;
 
     try {
         const response = await fetch(url, {

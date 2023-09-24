@@ -159,7 +159,9 @@ const addProduct = async (req, res) => {
         productTitleItalian,
         productDescItalian,
         compositionItalian,
-        morePriceBreaks
+        morePriceBreaks,
+        weigth,
+        volumetricWeigth
     } = req.body;
 
     const query = `
@@ -192,7 +194,9 @@ const addProduct = async (req, res) => {
             productTitleItalian,
             productDescItalian,
             compositionItalian,
-            prices
+            prices,
+            weigth,
+            volumetricWeigth
         ) VALUES (
             "${req.body.ref}", 
             "${req.body.cat}", 
@@ -222,7 +226,9 @@ const addProduct = async (req, res) => {
             "${req.body.productTitleItalian}",
             "${req.body.productDescItalian}",
             "${req.body.compositionItalian}",
-            '${req.body.prices}'
+            '${req.body.prices}',
+            '${req.body.weigth}',
+            '${req.body.volumetricWeigth}'
         ) ON DUPLICATE KEY UPDATE
         productTitle=VALUES(productTitle),
         productDesc=VALUES(productDesc),
@@ -251,12 +257,14 @@ const addProduct = async (req, res) => {
         productTitleItalian=VALUES(productTitleItalian),
         productDescItalian=VALUES(productDescItalian),
         compositionItalian=VALUES(compositionItalian),
-        prices=VALUES(prices)
+        prices=VALUES(prices),
+        weigth=VALUES(weigth),
+        volumetricWeigth=VALUES(volumetricWeigth)
     `;
 
     const con = await getConnection();
     const result = await con.query(query);
-
+    console.log(query)
     return result;
 };
 
