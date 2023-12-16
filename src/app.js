@@ -29,7 +29,12 @@ app.use(cors({
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
-
+app.get("/api/", (req, res) => {
+    // No es necesario llamar al controlador para una página estática
+    // Simplemente responde con el archivo HTML
+    res.sendfile("public/apiDoc.html"
+    );
+  });
 app.use("/api/", apiRoutes);
 app.get('/login.html', (req, res) => {
     res.sendfile('public/login.html');
