@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const knitwearSelector = document.getElementById('knitwearSelector');
   const towelsSelector = document.getElementById('towelsSelector');
   const newProductButton = document.getElementById('newProductButton');
+  const descargaButton = document.getElementById('descarga');
+
 
   sockSelector.addEventListener('click', function () {
     drawProductTable("socks", "productTable");
@@ -36,6 +38,65 @@ document.addEventListener('DOMContentLoaded', function () {
   newProductButton.addEventListener('click', function () {
     fillModalEdit();
   });
+
+
+  
+  descargaButton.addEventListener('click', async function () {
+    console.log("hola");
+    const url = 'http://localhost:4000/downloads'; // The URL for the API endpoint
+
+    try {
+        const formData = new URLSearchParams();
+        formData.append('refs', JSON.stringify(["KS04","KS02"]));
+        formData.append('attributes', JSON.stringify(["ref","productTitle"]));
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                // Add other headers if needed
+            },
+            body: formData.toString(),
+        });
+
+        if (response.ok) {
+            // Get the filename from the Content-Disposition header
+            const contentDisposition = response.headers.get('Content-Disposition');
+            let filename = 'download.xlsx';
+            if (contentDisposition) {
+                const match = contentDisposition.match(/filename="?(.+)"?/);
+                if (match) filename = match[1];
+            }
+
+            // Create a Blob from the response
+            const blob = await response.blob();
+
+            // Create a link and set the URL as the Blob URL
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+
+            // Append the link to the body and trigger the download
+            document.body.appendChild(link);
+            link.click();
+
+            // Clean up by removing the link and revoking the Blob URL
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(link.href);
+        } else {
+            console.error('Response not OK:', response.status);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+});
+
+
+
+
+
+  
 });
 
 

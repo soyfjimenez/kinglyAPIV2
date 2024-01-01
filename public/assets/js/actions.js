@@ -1,4 +1,3 @@
-
 async function getProducts(cat) {
     const url = `https://digital.wearekingly.com/api/en/${cat}`;
     //const url = `http://localhost:4000/api/en/${cat}`;
@@ -183,3 +182,4 @@ async function drawProductTable(cat, targetElementID) {
     tableBody = tableBody.replace("<!--PRODUCTLIST-->", productRows);
     target.innerHTML = tableBody;
 }
+// module.exports = addProduct

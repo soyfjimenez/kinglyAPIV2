@@ -1,12 +1,12 @@
-// app.js
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import apiRoutes from './routes/api.routes.js';
+import internalRoutes from './routes/internal.routes.js';
 import { authenticateToken, authHeaderMiddleware } from './auth/authMiddleware.js';
 import jwt from 'jsonwebtoken';
-import path from 'path';
+import { downloadEndpoint } from './downloads/downloads.js';
 const app = express();
 
 // Settings
@@ -29,18 +29,15 @@ app.use(cors({
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
-app.get("/api/", (req, res) => {
-    // No es necesario llamar al controlador para una página estática
-    // Simplemente responde con el archivo HTML
-    res.sendfile("public/apiDoc.html"
-    );
-  });
+
 app.use("/api/", apiRoutes);
+// app.use(express.static('./apiFront/dist/api-front'));
+
 app.get('/login.html', (req, res) => {
     res.sendfile('public/login.html');
   });
 
-  app.post('/login.html', (req, res) => {
+app.post('/login.html', (req, res) => {
     const { username, password } = req.body;
 
     // Lógica de autenticación
@@ -53,16 +50,10 @@ app.get('/login.html', (req, res) => {
         res.status(401).json({ message: 'Credenciales incorrectas' });
     }
 });
-app.use(authenticateToken);
-
+// app.use(authenticateToken);
+app.use("/internal/", internalRoutes);
+app.use("/downloads",downloadEndpoint);
 app.use(express.static('public'));
-// Ruta de inicio de sesión
 
-
-
-
-
-// Rutas protegidas
-// app.use('/api/en/', apiRoutes);
 
 export default app;
