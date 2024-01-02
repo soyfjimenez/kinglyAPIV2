@@ -50,7 +50,7 @@ app.post('/login.html', (req, res) => {
         res.status(401).json({ message: 'Credenciales incorrectas' });
     }
 });
-// app.use(authenticateToken);
+app.use(authenticateToken);
 app.use("/internal/", internalRoutes);
 app.use("/downloads",downloadEndpoint);
 app.use(express.static('public'));

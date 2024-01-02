@@ -1,7 +1,10 @@
 import { getConnection } from "../database/database.js";
 
 const getAllProductsSorted = async (req, res) => {
-    const { sortBy } = req.query;
+    let { sortBy } = req.query;
+    if (!sortBy){
+        sortBy = "ref"
+    }
     const query = `SELECT * FROM products ORDER BY ${sortBy}`;
     
     const con = await getConnection();
@@ -11,7 +14,10 @@ const getAllProductsSorted = async (req, res) => {
 
 const getCatSorted = async (req, res) => {
     const { cat } = req.params;
-    const { sortBy } = req.query;
+    let { sortBy } = req.query;
+    if (!sortBy){
+        sortBy = "ref"
+    }
     const query = `SELECT * FROM products WHERE cat = "${cat}" ORDER BY ${sortBy}`;
     const con = await getConnection();
     let datos = (await con.query(query))
