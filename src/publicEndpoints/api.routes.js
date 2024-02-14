@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {methods as controller} from "./../controllers/api.controller.js";
+import {methods as controller} from "./api.controller.js";
 const router = Router();
 
 router.get("/:country", controller.getAllProducts);

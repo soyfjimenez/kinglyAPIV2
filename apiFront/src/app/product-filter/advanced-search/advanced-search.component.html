@@ -1,0 +1,7 @@
+<div class="w-full">
+    <p-tree [value]="productIndex" [filter]="true" selectionMode="checkbox" [(selection)]="selectedProducts"
+        class="w-full md:w-30rem"></p-tree>
+</div>
+<div class="w-full">
+    <p-button (click)="sendAdvancedSelection()" label="Search for selection"></p-button>
+</div>

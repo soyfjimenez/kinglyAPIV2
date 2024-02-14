@@ -1,0 +1,42 @@
+<!-- app.component.html -->
+
+<p-card>
+  <form [formGroup]="userForm" (ngSubmit)="addUser()" novalidate>
+      <!-- Grid container -->
+      <div class="grid">
+          <!-- Column 1 -->
+          <div class="p-col">
+              <div class="field">
+                  <label for="firstName" class="block">First Name</label>
+                  <input type="text" pInputText placeholder="First Name" formControlName="firstName" />
+              </div>
+              <div class="field">
+                  <label for="street" class="block">Street</label>
+                  <input type="text" pInputText placeholder="Street" formControlName="street" />
+              </div>
+          </div>
+          <!-- Column 2 -->
+          <div class="p-col">
+              <div class="field">
+                  <label for="lastName" class="block">Last Name</label>
+                  <input type="text" pInputText placeholder="Last Name" formControlName="lastName" />
+              </div>
+              <div class="field">
+                  <label for="postCode" class="block">PostCode</label>
+                  <input type="text" pInputText placeholder="PostCode" formControlName="postCode" />
+              </div>
+          </div>
+          <div class="p-col">
+            <div class="field">
+                <label for="lastName" class="block">Last Name</label>
+                <input type="text" pInputText placeholder="Last Name" formControlName="lastName" />
+            </div>
+            <div class="field">
+                <label for="postCode" class="block">PostCode</label>
+                <input type="text" pInputText placeholder="PostCode" formControlName="postCode" />
+            </div>
+        </div>
+      </div>
+      <button pButton type="submit" label="Submit" [disabled]="userForm.invalid"></button>
+  </form>
+</p-card>

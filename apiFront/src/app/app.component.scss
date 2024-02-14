@@ -1,0 +1,30 @@
+
+@import 'primeflex/primeflex.css';
+/* Import PrimeNG theme */
+@import 'primeng/resources/themes/saga-blue/theme.css';
+
+/* Import PrimeNG core CSS */
+@import 'primeng/resources/primeng.min.css';
+
+/* Import PrimeIcons */
+@import 'primeicons/primeicons.css';
+
+
+.container{
+  background-image: url('https://wearekingly.com/wp-content/uploads/2024/02/Untitled-design-1.jpg');
+  background-size: cover; /* Opcional: ajusta la imagen al tamaño del contenedor */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  }
+.sidebar{
+    background-color: #fdfdfd61;
+    overflow:hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
+  }
+.headerContainer{
+    background-color: black;
+}
+body{
+  margin:0px !important;
+}

@@ -5,7 +5,9 @@
     "description": "",
     "main": "src/index.js",
     "scripts": {
-        "start": "node src/index.js",
+        "start": "concurrently \"cd apiFront && ng build \" \"node src/index.js\"",
+        "dale": "node src/index.js",
+        "serve": "concurrently \"cd apiFront && ng serve \" \"node src/index.js\"",
         "babel-node": "babel-node --presets=@babel/preset-env",
         "dev": "nodemon --exec npm run babel-node src/index.js"
     },
@@ -13,9 +15,13 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dotenv": "^16.0.0",
+        "exceljs": "^4.4.0",
         "express": "^4.17.3",
+        "jsonwebtoken": "^9.0.2",
+        "path": "^0.12.7",
         "promise-mysql": "^5.1.0"
     },
     "devDependencies": {
@@ -23,6 +29,7 @@
         "@babel/core": "^7.17.8",
         "@babel/node": "^7.16.8",
         "@babel/preset-env": "^7.16.11",
+        "concurrently": "^8.2.2",
         "morgan": "^1.10.0",
         "nodemon": "^2.0.15"
     }

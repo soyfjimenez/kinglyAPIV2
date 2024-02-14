@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const knitwearSelector = document.getElementById('knitwearSelector');
   const towelsSelector = document.getElementById('towelsSelector');
   const newProductButton = document.getElementById('newProductButton');
+  const descargaButton = document.getElementById('descarga');
+
 
   sockSelector.addEventListener('click', function () {
     drawProductTable("socks", "productTable");
@@ -36,6 +38,65 @@ document.addEventListener('DOMContentLoaded', function () {
   newProductButton.addEventListener('click', function () {
     fillModalEdit();
   });
+
+
+  
+  descargaButton.addEventListener('click', async function () {
+    console.log("hola");
+    const url = 'http://localhost:4000/downloads'; // The URL for the API endpoint
+
+    try {
+        const formData = new URLSearchParams();
+        formData.append('refs', JSON.stringify(["KS04","KS02"]));
+        formData.append('attributes', JSON.stringify(["ref","productTitle"]));
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                // Add other headers if needed
+            },
+            body: formData.toString(),
+        });
+
+        if (response.ok) {
+            // Get the filename from the Content-Disposition header
+            const contentDisposition = response.headers.get('Content-Disposition');
+            let filename = 'download.xlsx';
+            if (contentDisposition) {
+                const match = contentDisposition.match(/filename="?(.+)"?/);
+                if (match) filename = match[1];
+            }
+
+            // Create a Blob from the response
+            const blob = await response.blob();
+
+            // Create a link and set the URL as the Blob URL
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+
+            // Append the link to the body and trigger the download
+            document.body.appendChild(link);
+            link.click();
+
+            // Clean up by removing the link and revoking the Blob URL
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(link.href);
+        } else {
+            console.error('Response not OK:', response.status);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+});
+
+
+
+
+
+  
 });
 
 
@@ -176,32 +237,37 @@ async function deleteProduct(ref, cat) {
 };
 
 function fillPrices(productJSON) {
-  if (!productJSON) {
-    productJSON = {
-      150: 0,
-      250: 0,
-      350: 0,
-      500: 0,
-      750: 0,
-      1000: 0,
-      1500: 0,
-      2500: 0,
-      3500: 0,
-      5000: 0,
-      10000: 0
-
-    }
-  }
   let pricing = document.getElementsByClassName("pricing");
-  console.log(pricing);
   let i = 0;
+
   for (const key in productJSON) {
+    if (i >= pricing.length) {
+      break; // Salir del bucle si no hay suficientes elementos "pricing"
+    }
+
     let qty = key;
     let price = productJSON[key];
+
+    // Verificar si price es un número válido
+    if (!isNaN(parseFloat(price))) {
+      let qtySelector = pricing[i].getElementsByClassName("qty")[0];
+      let priceSelector = pricing[i].getElementsByClassName("price")[0];
+      qtySelector.value = qty;
+      priceSelector.value = price;
+      i++;
+    } else {
+      // Si price no es un número válido, puedes manejarlo como desees
+      console.log(`El valor de precio en "${qty}" no es un número válido.`);
+    }
+  }
+
+  // Establecer campos restantes en vacío si no quedan claves en productJSON
+  for (; i < pricing.length; i++) {
     let qtySelector = pricing[i].getElementsByClassName("qty")[0];
     let priceSelector = pricing[i].getElementsByClassName("price")[0];
-    qtySelector.value = qty;
-    priceSelector.value = price;
-    i++
+    qtySelector.value = "";
+    priceSelector.value = "";
   }
 }
+
+

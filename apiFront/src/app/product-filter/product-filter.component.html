@@ -1,0 +1,17 @@
+<div class="grid">
+    <div class="col">
+        <p-dropdown [options]="categories" [(ngModel)]="selectedCategories" placeholder="Select category"
+            optionLabel="name"></p-dropdown>
+
+        <button pButton type="button" icon="pi pi-search" (click)="sendCategorySelection()"></button>
+    </div>
+    <div class="col">
+        <p-button (click)="showDialog()" icon="pi pi-search-plus"
+            label="Advanced search"></p-button>
+    </div>
+
+
+</div>
+<p-dialog header="Advanced search" [(visible)]="visible" [style]="{width: '50vw'}">
+<app-advanced-search (productAdvancedSelection)="sendAdvancedSelection($event)"></app-advanced-search>
+</p-dialog>

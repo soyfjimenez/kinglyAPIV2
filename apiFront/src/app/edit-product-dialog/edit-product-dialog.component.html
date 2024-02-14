@@ -1,0 +1,75 @@
+
+
+<h1>Edit reference: {{reference}}</h1>
+
+<div class="grid fieldGrid py-5">
+
+    <div class="col-1">
+        <label>Reference</label>
+        <input type="text" pInputText [(ngModel)]="reference" />
+    </div>
+
+    <div class="col-1">
+        <label>Category</label>
+        <p-dropdown [options]="categoryOptions" [(ngModel)]="selectedCategory" optionLabel="label"
+            placeholder="Select a Category"></p-dropdown>
+    </div>
+    <div class="col-1">
+        <label>Weight</label>
+        <p-inputNumber [(ngModel)]="weight" />
+    </div>
+    <div class="col-1">
+        <label>Volumetric weight (cm3)</label>
+        <p-inputNumber [(ngModel)]="volumetricWeight" />
+    </div>
+    <div class="col"></div>
+    <div class="col-1 align-content-end">
+        <label>Upload product images</label>
+        <p-fileUpload mode="basic" chooseLabel="Choose" name="demo[]"
+            url="https://www.primefaces.org/cdn/api/upload.php" [disabled]="true" accept="image/*"></p-fileUpload>
+    </div>
+    <div class="col-1 align-content-end">
+        <label>Select image category</label>
+        <p-dropdown optionLabel="label" placeholder="Image destination" [disabled]="true"></p-dropdown>
+    </div>
+    <div class="col"></div>
+
+</div>
+<div class="pt-5 translationsDiv py-5"></div>
+<p-accordion [activeIndex]="0">
+    <p-accordionTab header="{{lang.language}}" *ngFor="let lang of translations">
+        <div class="grid">
+            <div class="col-12">
+                <label>Title in {{ lang.language }}</label>
+                <input class="w-full" type="text" id="translationTitle" [(ngModel)]="lang.title" pInputText />
+            </div>
+            <div class="col-6">
+                <label>Description in {{ lang.language }}</label>
+                <textarea class="w-full" id="description" [(ngModel)]="lang.desc" pInputTextarea rows="4"></textarea>
+            </div>
+            <div class="col-6">
+                <label>Composition in {{ lang.language }}</label>
+                <textarea class="w-full" id="description" [(ngModel)]="lang.comp" pInputTextarea rows="4"></textarea>
+            </div>
+        </div>
+    </p-accordionTab>
+</p-accordion>
+
+<div class="grid pricesDiv py-5">
+
+    <div class="col-12 text-center">
+        <button pButton type="button" icon="pi pi-plus" label="Add price break" (click)="addPriceField()"></button>
+    </div>
+
+    <div class="col-1 m-2" *ngFor="let price of priceFields">
+        <p-inputNumber [(ngModel)]="price.qty" suffix=" uds."> </p-inputNumber>
+        <p-inputNumber [(ngModel)]="price.price" inputId="locale-german" mode="decimal" locale="de-DE"
+            [minFractionDigits]="2"> </p-inputNumber>
+    </div>
+</div>
+
+
+
+<div class="p-field">
+    <button class="w-full" type="button" pButton label="Update Product" (click)="updateProduct()"></button>
+</div>
