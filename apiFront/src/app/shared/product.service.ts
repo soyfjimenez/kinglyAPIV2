@@ -26,7 +26,7 @@ export async function getProducts(selection:any) {
 console.log(selection)
   switch (selection.mode){
     case "categories":
-      let url = `https://digital.wearekingly.com/internal/${selection.categories}`; // The URL for the API endpoint
+      let url = `https://digital.wearekingly.com/internal/cat/${selection.categories}`; // The URL for the API endpoint
 
   try {
           const response = await fetch(url, {
