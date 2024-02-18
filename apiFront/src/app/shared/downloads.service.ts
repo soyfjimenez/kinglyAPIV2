@@ -15,7 +15,7 @@ export class ProductService {
 }
 
 export async function generateExcelReport(refs: any, attributes: any,priceMultiplier: any){
-  fetch('http://localhost:4000/downloads', {
+  fetch('https://digital.wearekingly.com/downloads', {
   method: 'POST',
   headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

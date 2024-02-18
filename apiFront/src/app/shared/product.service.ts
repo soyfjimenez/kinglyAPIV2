@@ -117,7 +117,7 @@ export async function getProductIndex() {
 }
 
 export async function getProductFields() {
-  const url = `http://localhost:4000/internal/productFields`; // The URL for the API endpoint
+  const url = `https://digital.wearekingly.com/internal/productFields`; // The URL for the API endpoint
 
   try {
           const response = await fetch(url, {
