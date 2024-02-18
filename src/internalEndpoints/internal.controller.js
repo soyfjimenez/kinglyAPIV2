@@ -9,6 +9,17 @@ const getLanguages = async (req, res) => {
         res.json(datos);
 }
 
+const getProductFields = async (req, res) => {
+    const query = `SELECT * FROM fullProductView LIMIT 1`;
+    
+    const con = await getConnection();
+    let datos = (await con.query(query))
+    const keys = Object.keys(datos[0]);
+    const keysFilter = ["composition", "product", "price"]
+    const filteredKeys = keys.filter(string => !keysFilter.some(word => string.includes(word)));
+    filteredKeys.push("prices")
+    res.json(filteredKeys);
+}
 const getAllProductsSorted = async (req, res) => {
     let { sortBy } = req.query;
     if (!sortBy){
@@ -20,6 +31,7 @@ const getAllProductsSorted = async (req, res) => {
     let datos = (await con.query(query))
     res.json(datos);
 }
+
 
 const getProductIndex = async (req, res) => {
     let { sortBy } = req.query;
@@ -245,5 +257,6 @@ export const methods = {
     getReferences,
     getCatSorted,
     getLanguages,
-    getProductIndex
+    getProductIndex,
+    getProductFields
 }

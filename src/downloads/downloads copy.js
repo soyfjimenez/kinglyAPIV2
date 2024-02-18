@@ -5,9 +5,8 @@ import fs from 'fs';
 export const downloadEndpoint = async (req, res) => {
     const attributes = JSON.parse(req.body.attributes);
     const refs = JSON.parse(req.body.refs);
-    const priceMultiplier = JSON.parse(req.body.priceMultiplier);
     try {
-        const file = await generateExcelReport(attributes, refs, priceMultiplier);
+        const file = await generateExcelReport(attributes, refs);
         res.download(file, (err) => {
             if (err) {
                 console.error('Error during file download:', err);
@@ -20,25 +19,35 @@ export const downloadEndpoint = async (req, res) => {
     }
 };
 
-export const generateExcelReport = async (attributes, refs,priceMultiplier) => {
+export const generateExcelReport = async (attributes, refs) => {
     let data = await retrieveData(refs);
         for (let row in data) {
-            // console.log("row")
-            // console.log(row)
-            // console.log("row")
-            for (let field in row) { 
-            if (!attributes.includes(field)) {
-                // delete row[field];
+            if (!attributes.includes(row)) {
+                delete obj[key];
             }
         }
-        }
-    data = formatPricingPerRow(data,priceMultiplier);
-    data = formatPricingPerColumn(data,priceMultiplier);
+    data = formatPricingPerRow(data);
+    data = formatPricingPerColumn(data);
     data = stripBadInfo(data);
-    // console.log(data)
+    console.log(data)
     // Create a new Excel workbook and worksheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
+
+    // Check if attributes is "*"; if true, include all attributes
+    let allAttributes = false;
+    if (attributes === "*") {
+        allAttributes = true;
+        attributes = [];  // Empty the attributes array for later use
+    }
+
+    // Convert attributes to an array if necessary
+    if (!Array.isArray(attributes)) {
+        attributes = attributes ? [attributes] : [];
+    }
+
+    // Get all unique attributes if "*" was specified
+    if (allAttributes) {
         data.forEach(row => {
             Object.keys(row).forEach(attribute => {
                 if (!attributes.includes(attribute)) {
@@ -46,6 +55,7 @@ export const generateExcelReport = async (attributes, refs,priceMultiplier) => {
                 }
             });
         });
+    }
 
     const headers = attributes.map(attribute => ({ header: attribute, key: attribute }));
     worksheet.columns = headers;
@@ -103,8 +113,7 @@ const retrieveData = async (refs) => {
     }
 };
 
-function formatPricingPerRow(data,priceMultiplier){
-    console.log(priceMultiplier)
+function formatPricingPerRow(data){
     data.forEach(row => {
         // Parse the prices field if it's a JSON string
         if (row.prices && typeof row.prices === 'string') {
@@ -117,15 +126,14 @@ function formatPricingPerRow(data,priceMultiplier){
         let i = 1
         for (let price in row.prices) {
             row[`Qty${i}`] = price
-            row[`Price${i}`] = row.prices[price] * parseFloat(priceMultiplier)
+            row[`Price${i}`] = row.prices[price]
             i++
         }
     });
 return data
 }
 
-function formatPricingPerColumn(data,priceMultiplier){
-    console.log(priceMultiplier)
+function formatPricingPerColumn(data){
     data.forEach(row => {
         // Parse the prices field if it's a JSON string
         if (row.prices && typeof row.prices === 'string') {
@@ -137,7 +145,7 @@ function formatPricingPerColumn(data,priceMultiplier){
         }
         let i = 1
         for (let price in row.prices) {
-      row[price] = row.prices[price] * parseFloat(priceMultiplier)
+      row[price] = row.prices[price]
             i++
         }
     });

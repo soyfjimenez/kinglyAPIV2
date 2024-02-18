@@ -14,14 +14,14 @@ export class ProductService {
   
 }
 
-export async function generateExcelReport(refs: any, attributes: any){
-  fetch('https://digital.wearekingly.com/downloads', {
+export async function generateExcelReport(refs: any, attributes: any,priceMultiplier: any){
+  fetch('http://localhost:4000/downloads', {
   method: 'POST',
   headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'auth': 'Galatea'
   },
-  body: `refs=${JSON.stringify(refs)}&attributes=${JSON.stringify(attributes)}`
+  body: `refs=${JSON.stringify(refs)}&attributes=${JSON.stringify(attributes)}&priceMultiplier=${priceMultiplier}`
   // body: `refs=["KS04","KS02"]&attributes=${JSON.stringify(attributes)}`
 })
 .then(response => response.blob())

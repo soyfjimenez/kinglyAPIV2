@@ -3,9 +3,10 @@ import {methods as controller} from "./internal.controller.js";
 import {translateFields} from "../tasks/translateFields.js"
 const router = Router();
 router.get("/languages/", controller.getLanguages);
+router.get("/productFields/", controller.getProductFields);
 router.get("/", controller.getAllProductsSorted);
 router.get("/ref/:ref/", controller.getFullProduct);
-router.get("/:cat/", controller.getCatSorted);
+router.get("/cat/:cat/", controller.getCatSorted);
 
 
 router.post("/refs/", controller.getReferences);

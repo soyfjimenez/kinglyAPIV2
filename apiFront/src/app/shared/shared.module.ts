@@ -19,6 +19,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { TreeModule } from 'primeng/tree';
+import { ListboxModule } from 'primeng/listbox';
+
 
 
 
@@ -48,7 +50,8 @@ import { TreeModule } from 'primeng/tree';
     FileUploadModule,
     MenuModule,
     BadgeModule,
-    TreeModule
+    TreeModule,
+    ListboxModule
   ],
   exports: [
     CommonModule,
@@ -70,7 +73,8 @@ import { TreeModule } from 'primeng/tree';
     FileUploadModule,
     MenuModule,
     BadgeModule,
-    TreeModule
+    TreeModule,
+    ListboxModule
   ]
 })
 export class SharedModule { }

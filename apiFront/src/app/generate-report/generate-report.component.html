@@ -3,12 +3,9 @@
         <app-advanced-search (productAdvancedSelection)="getReport($event)"></app-advanced-search>
     </div>
     <div class="col-4">
-        <!-- <div class="w-full">
-            <p-tree [value]="fieldsIndex" [filter]="true" selectionMode="checkbox" [(selection)]="selectedFields" class="w-full md:w-30rem"></p-tree>
-        </div>
-        <div class="w-full">
-        <p-button (click)="sendFieldsSelection()" label="Search for selection"></p-button>
-    </div> -->
-    <!-- <p-button (click)='getExcelReport("A","*")' label="Generate Excel Report"></p-button> -->
+    <p-listbox [options]="productFields" [(ngModel)]="selectedFields" optionLabel="name" [style]="{'width':'15rem'}" [multiple]="true" [metaKeySelection]="false" [listStyle]="{'max-height': '220px'}"></p-listbox>
+    <label>Price modifier</label><br>
+    <p-inputNumber inputId="integeronly" prefix="%" [(ngModel)]="priceModifier"> </p-inputNumber>
+
     </div>
 </div>

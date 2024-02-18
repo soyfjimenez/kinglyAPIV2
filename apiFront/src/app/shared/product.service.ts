@@ -26,7 +26,7 @@ export async function getProducts(selection:any) {
 console.log(selection)
   switch (selection.mode){
     case "categories":
-      let url = `https://digital.wearekingly.com/${selection.categories}`; // The URL for the API endpoint
+      let url = `https://digital.wearekingly.com/internal/${selection.categories}`; // The URL for the API endpoint
 
   try {
           const response = await fetch(url, {
@@ -110,6 +110,31 @@ export async function getProductIndex() {
 
       const data = await response.json();
       return data; // Return the data
+  } catch (error) {
+      console.error('Error:', error); // Log any errors that occur during the fetch operation
+      throw error; // You can choose to handle the error here or let it propagate to the calling code
+  }
+}
+
+export async function getProductFields() {
+  const url = `http://localhost:4000/internal/productFields`; // The URL for the API endpoint
+
+  try {
+          const response = await fetch(url, {
+          method: 'GET', // Using the HTTP POST method
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'auth': 'Galatea'
+          },
+      });
+      let data = await response.json();
+      console.log(data)
+      let formattedData = []
+      for (let field of data) {
+       formattedData.push({name: field})
+    }
+      console.log(formattedData)
+      return formattedData; // Return the data
   } catch (error) {
       console.error('Error:', error); // Log any errors that occur during the fetch operation
       throw error; // You can choose to handle the error here or let it propagate to the calling code

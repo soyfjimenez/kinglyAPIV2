@@ -28,7 +28,12 @@ app.use(cors(
         credentials: true,
     }));
 
-
+    app.get('/products', (req, res) => {
+        res.sendfile('apiFront/dist/api-front/index.html');
+    });
+    app.get('/api', (req, res) => {
+        res.sendfile('public/apiDoc.html');
+      });
 app.use("/api/", apiRoutes);
 app.get('/login.html', (req, res) => {
     res.sendfile('public/login.html');

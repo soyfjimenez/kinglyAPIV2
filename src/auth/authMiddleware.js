@@ -40,32 +40,54 @@ export const verifyTokenMiddleware = (req, res, next) => {
   }
 };
 
+// export const authenticateToken = (req, res, next) => {
+//   console.log("Inicia autenticación")
+//   let token = null
+//   if(req.cookies.token){
+//     console.log(token)
+//     token = req.cookies.token
+//     jwt.verify(token, secretKey, (err, user) => {
+//       if (err) {
+//         return res.redirect('/login.html');
+//       }
+  
+//       next();
+//     });
+//   }
+//   else{
+//     console.log("No hay Cookie")
+//     if(req.header('auth') == "Galatea") {
+//     next();
+//   }
+//   else{
+//     return res.redirect('/login.html');
+//   }
+// };
+// };
+
 export const authenticateToken = (req, res, next) => {
-  console.log("Inicia autenticación")
-  let token = null
-  if(req.cookies.token){
-    console.log(token)
-    token = req.cookies.token
+  console.log("Inicia autenticación");
+  let token = null;
+  if (req.cookies.token) {
+    console.log(token);
+    token = req.cookies.token;
     jwt.verify(token, secretKey, (err, user) => {
       if (err) {
         return res.redirect('/login.html');
       }
-  
       next();
     });
-  }
-  else{
-    console.log("No hay Cookie")
-    if(req.header('auth') == "Galatea") {
-    next();
-  }
-  else{
-    return res.redirect('/login.html');
+  } else {
+    console.log("No hay Cookie");
+    if (
+      req.header('auth') == "Galatea"
+    ) {
+      next();
+    } else {
+      return res.redirect('/login.html');
+    }
   }
 };
 
-
-  
-};
 
 
