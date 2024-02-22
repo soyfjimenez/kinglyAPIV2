@@ -23,9 +23,6 @@ export const downloadEndpoint = async (req, res) => {
 export const generateExcelReport = async (attributes, refs,priceMultiplier) => {
     let data = await retrieveData(refs);
         for (let row in data) {
-            // console.log("row")
-            // console.log(row)
-            // console.log("row")
             for (let field in row) { 
             if (!attributes.includes(field)) {
                 // delete row[field];
@@ -104,7 +101,6 @@ const retrieveData = async (refs) => {
 };
 
 function formatPricingPerRow(data,priceMultiplier){
-    console.log(priceMultiplier)
     data.forEach(row => {
         // Parse the prices field if it's a JSON string
         if (row.prices && typeof row.prices === 'string') {
@@ -115,17 +111,16 @@ function formatPricingPerRow(data,priceMultiplier){
             }
         }
         let i = 1
-        for (let price in row.prices) {
-            row[`Qty${i}`] = price
-            row[`Price${i}`] = row.prices[price] * parseFloat(priceMultiplier)
+        row.prices.forEach(price=>{
+            row[`Qty${i}`] = price.qty
+            row[`Price${i}`] = price.price * parseFloat(priceMultiplier)
             i++
-        }
+        })
     });
 return data
 }
 
 function formatPricingPerColumn(data,priceMultiplier){
-    console.log(priceMultiplier)
     data.forEach(row => {
         // Parse the prices field if it's a JSON string
         if (row.prices && typeof row.prices === 'string') {
@@ -136,10 +131,9 @@ function formatPricingPerColumn(data,priceMultiplier){
             }
         }
         let i = 1
-        for (let price in row.prices) {
-      row[price] = row.prices[price] * parseFloat(priceMultiplier)
-            i++
-        }
+        row.prices.forEach(price=>{
+            row[price.qty] = price.price * parseFloat(priceMultiplier)
+        })
     });
 return data
 }

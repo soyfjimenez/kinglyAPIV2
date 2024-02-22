@@ -14,10 +14,9 @@ export class EditProductDialogComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.product) {
       this.initializeForm()
-      // Aquí puedes realizar otras acciones en respuesta al cambio de la propiedad 'message'
     }
   }
-
+  
 
 
   closeParentDialog() {
@@ -30,7 +29,7 @@ export class EditProductDialogComponent implements OnInit {
   composition: string = '';
   weight: string = '';
   volumetricWeight: string = '';
-  prices: any = {};
+  prices: any[] = [];
   priceFields: any[] = [];
   selectedCategory: any = {};
 
@@ -64,7 +63,7 @@ export class EditProductDialogComponent implements OnInit {
 }
 
   addPriceField(){
-    this.priceFields.push({qty: "", price: 0})
+    this.prices.push({qty: "", price: 0, isComplex: false, delivery: null, setup: null})
   }
 
   initializeTranslations() {
@@ -80,16 +79,22 @@ export class EditProductDialogComponent implements OnInit {
       i++
     });
   }
-  initializePrices() {
-    let i = 0;
-    for (let price in this.prices) {
-      this.priceFields[i] = {
-        "qty": price,
-        "price": this.prices[price] // get the price from the prices object using the key
-      };
-      i++; // increment i to avoid overwriting the same index
-    }
-  }
+  // initializePrices() {
+  //   let i = 0;
+  //   for (let price in this.prices) {
+  //     this.priceFields[i] = {
+  //       "qty": price,
+  //       "price": this.prices[price]["price"],
+  //       "setup": this.prices[price]["setup"],
+  //       "delivery": this.prices[price]["delivery"]
+  //     };
+  //     if (this.prices.price.isComplex){
+  //       this.priceFields[i]["setup"] = this.prices[price]["price"]
+  //       this.priceFields[i]["setup"]
+  //     }
+  //     i++; // increment i to avoid overwriting the same index
+  //   }
+  // }
   initializeCategory(){
     this.categoryOptions.forEach(category => {
       if (category.value == this.product.cat){
@@ -107,8 +112,8 @@ export class EditProductDialogComponent implements OnInit {
         this.composition = this.product.comp_en || '';
         this.weight = this.product.weight || 0;
         this.volumetricWeight = this.product.volumetricWeight || 0;
-        this.prices = this.product.prices ? JSON.parse(this.product.prices) : {};
-        this.initializePrices();
+        this.prices = this.product.prices ? JSON.parse(this.product.prices) : [];
+        // this.initializePrices();
         this.initializeCategory();
         this.initializeTranslations();
       } else {
@@ -119,7 +124,7 @@ export class EditProductDialogComponent implements OnInit {
         this.composition = '';
         this.weight = '';
         this.volumetricWeight = '';
-        this.prices = {};
+        this.prices = [];
         this.priceFields = [];
         this.selectedCategory = {};
         this.translations = this.languages.map(lang => ({
@@ -151,7 +156,10 @@ export class EditProductDialogComponent implements OnInit {
     let objectPrices: any = {}
     this.priceFields.forEach(price => {
       if (price.price > 0){
-        objectPrices[price.qty] = price.price
+        objectPrices[price.qty]["price"] = price.price}
+      if (price.complex){
+        objectPrices[price.qty]["setup"] = price.setup
+        objectPrices[price.qty]["delivery"] = price.delivery
       }
     });
     return objectPrices

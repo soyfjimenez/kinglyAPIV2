@@ -31,19 +31,15 @@ export class ProductTableComponent implements OnInit {
 
   // product-table.component.ts
  displayPrices(prices: string): string {
+  let parsedPrices = JSON.parse(prices)
   if (!prices) {
     return 'No prices available';
   }
 
-  const pricesObj = JSON.parse(prices);
-  const priceKeys = Object.keys(pricesObj);
+  const minPrice = parsedPrices.length > 0 ? parsedPrices[0].price : "A";
 
-  if (priceKeys.length === 0) {
-    return 'No prices available';
-  }
+  const maxPrice = parsedPrices.length > 0 ? parsedPrices[parsedPrices.length - 1].price : "B";
 
-  const minPrice = pricesObj[priceKeys[0]];
-  const maxPrice = pricesObj[priceKeys[priceKeys.length - 1]];
 
   return `From ${minPrice} to ${maxPrice}`;
 }

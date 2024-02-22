@@ -20,7 +20,9 @@ import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { TreeModule } from 'primeng/tree';
 import { ListboxModule } from 'primeng/listbox';
-
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { Checkbox, CheckboxModule } from 'primeng/checkbox';
 
 
 
@@ -51,7 +53,10 @@ import { ListboxModule } from 'primeng/listbox';
     MenuModule,
     BadgeModule,
     TreeModule,
-    ListboxModule
+    ListboxModule,
+    InputGroupAddonModule,
+    InputGroupModule,
+    CheckboxModule
   ],
   exports: [
     CommonModule,
@@ -74,7 +79,10 @@ import { ListboxModule } from 'primeng/listbox';
     MenuModule,
     BadgeModule,
     TreeModule,
-    ListboxModule
+    ListboxModule,
+    InputGroupAddonModule,
+    InputGroupModule,
+    CheckboxModule
   ]
 })
 export class SharedModule { }

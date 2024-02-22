@@ -1,5 +1,3 @@
-
-
 <h1>Edit reference: {{reference}}</h1>
 
 <div class="grid fieldGrid py-5">
@@ -61,10 +59,17 @@
         <button pButton type="button" icon="pi pi-plus" label="Add price break" (click)="addPriceField()"></button>
     </div>
 
-    <div class="col-1 m-2" *ngFor="let price of priceFields">
-        <p-inputNumber [(ngModel)]="price.qty" suffix=" uds."> </p-inputNumber>
-        <p-inputNumber [(ngModel)]="price.price" inputId="locale-german" mode="decimal" locale="de-DE"
-            [minFractionDigits]="2"> </p-inputNumber>
+    <div class="col-1 m-2" *ngFor="let price of prices">
+        <p-inputGroup>
+            <p-inputNumber [(ngModel)]="price.qty" suffix=" uds." placeholder="Qty"> </p-inputNumber>
+            <p-inputNumber [(ngModel)]="price.price" placeholder="Price" mode="decimal" locale="de-DE"
+                [minFractionDigits]="2"> </p-inputNumber>
+        </p-inputGroup>
+        <p-checkbox [(ngModel)]="this.price.isComplex" label="Complex price" [binary]="true" inputId="binary"></p-checkbox>
+        <div *ngIf="this.price.isComplex">
+            <input type="text" pInputText placeholder="Set up charge" [(ngModel)]="this.price.setup"/>
+            <input type="text" pInputText placeholder="Delivery" [(ngModel)]="this.price.delivery" />
+        </div>
     </div>
 </div>
 
