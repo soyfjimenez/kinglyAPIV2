@@ -60,7 +60,7 @@ function increasePrice(products, increase) {
         console.log(newPrices)
         for (let price in newPrices){
             // price = price * increase
-            newPrices[price] = (newPrices[price] * increase).toFixed(2)
+            newPrices[price]["price"] = (newPrices[price]["price"] * increase).toFixed(2)
         }
         product.prices = newPrices
     })
